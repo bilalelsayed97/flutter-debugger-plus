@@ -1,0 +1,85 @@
+{
+  "name": "flutter-debugger-plus",
+  "displayName": "Flutter Debugger Plus",
+  "description": "Searchable Flutter/Dart debug console with ANSI colors, file-link navigation and regex search — sits next to Terminal, Debug Console & Output.",
+  "version": "0.0.2",
+  "publisher": "dattd-01",
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Debuggers",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onDebug"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "flutterDebuggerPlus.show",
+        "title": "Flutter Debugger Plus: Show Console"
+      },
+      {
+        "command": "flutterDebuggerPlus.clear",
+        "title": "Flutter Debugger Plus: Clear Logs"
+      }
+    ],
+    "viewsContainers": {
+      "panel": [
+        {
+          "id": "flutterDebuggerPlusPanel",
+          "title": "Flutter Console+",
+          "icon": "media/debug-console.svg"
+        }
+      ]
+    },
+    "views": {
+      "flutterDebuggerPlusPanel": [
+        {
+          "id": "flutterDebuggerPlus.consoleView",
+          "name": "Search Console",
+          "type": "webview",
+          "icon": "media/debug-console.svg",
+          "contextualTitle": "Flutter Console+"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Flutter Debugger Plus",
+      "properties": {
+        "flutterDebuggerPlus.autoRevealOnFlutterDebug": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically reveal the console when a Flutter/Dart debug session starts."
+        },
+        "flutterDebuggerPlus.maxLines": {
+          "type": "number",
+          "default": 5000,
+          "minimum": 500,
+          "description": "Maximum number of log lines kept in memory."
+        },
+        "flutterDebuggerPlus.onlyFlutterDart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Capture only Dart/Flutter debug sessions. Turn off to capture all debug adapter output events."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.4.5",
+    "@vscode/vsce": "^3.0.0"
+  }
+}

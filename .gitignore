@@ -1,0 +1,19 @@
+# Compiled output — sinh ra từ `npm run compile`, không cần commit
+extension/out/
+
+# Dependencies — cài lại bằng `npm install`
+extension/node_modules/
+
+# VSIX build artifacts
+*.vsix
+
+# VSIX internal metadata (sinh ra khi unzip .vsix, không phải source)
+[Content_Types].xml
+extension.vsixmanifest
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# VSCode local settings (nếu muốn share thì bỏ dòng này)
+.vscode/
