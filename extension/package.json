@@ -2,7 +2,7 @@
 	"name": "flutter-debugger-plus",
 	"displayName": "Flutter Debugger Plus",
 	"description": "Searchable Flutter/Dart debug console with ANSI colors, file-link navigation and regex search — sits next to Terminal, Debug Console & Output.",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"publisher": "dattd-01",
 	"license": "MIT",
 	"repository": {
@@ -151,6 +151,12 @@
 					"type": "string",
 					"default": "",
 					"description": "Font family for the log output area. Leave empty to follow the editor font family (editor.fontFamily)."
+				},
+				"flutterDebuggerPlus.lineHeight": {
+					"type": "number",
+					"default": 1,
+					"minimum": 0,
+					"description": "Vertical line spacing for the log output area, as a multiplier of the font size (e.g. 1 = tight, 1.45 = roomy)."
 				}
 			}
 		}

@@ -191,7 +191,8 @@ class ConsoleViewProvider implements vscode.WebviewViewProvider {
         // The webview re-requests its logs via its existing ready -> init flow.
         if (
           e.affectsConfiguration('flutterDebuggerPlus.fontSize') ||
-          e.affectsConfiguration('flutterDebuggerPlus.fontFamily')
+          e.affectsConfiguration('flutterDebuggerPlus.fontFamily') ||
+          e.affectsConfiguration('flutterDebuggerPlus.lineHeight')
         ) {
           if (this.view) { this.view.webview.html = this.getHtml(); }
         }
@@ -253,6 +254,9 @@ class ConsoleViewProvider implements vscode.WebviewViewProvider {
     const logsFontFamily = cfgFontFamily
       ? cfgFontFamily.replace(/[<>{}]/g, '')
       : 'var(--vscode-editor-font-family)';
+    // Vertical line spacing for the log area (unitless multiplier of the font size).
+    const cfgLineHeight = cfg.get<number>('lineHeight', 1);
+    const logsLineHeight = cfgLineHeight && cfgLineHeight > 0 ? cfgLineHeight : 1;
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -443,7 +447,7 @@ class ConsoleViewProvider implements vscode.WebviewViewProvider {
     padding: 6px 8px;
     font-family: ${logsFontFamily};
     font-size: ${logsFontSize};
-    line-height: 1.45;
+    line-height: ${logsLineHeight};
   }
   .line {
     white-space: pre-wrap;
