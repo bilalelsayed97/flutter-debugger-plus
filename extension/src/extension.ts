@@ -192,7 +192,8 @@ class ConsoleViewProvider implements vscode.WebviewViewProvider {
         if (
           e.affectsConfiguration('flutterDebuggerPlus.fontSize') ||
           e.affectsConfiguration('flutterDebuggerPlus.fontFamily') ||
-          e.affectsConfiguration('flutterDebuggerPlus.lineHeight')
+          e.affectsConfiguration('flutterDebuggerPlus.lineHeight') ||
+          e.affectsConfiguration('flutterDebuggerPlus.fontColor')
         ) {
           if (this.view) { this.view.webview.html = this.getHtml(); }
         }
@@ -257,6 +258,13 @@ class ConsoleViewProvider implements vscode.WebviewViewProvider {
     // Vertical line spacing for the log area (unitless multiplier of the font size).
     const cfgLineHeight = cfg.get<number>('lineHeight', 1);
     const logsLineHeight = cfgLineHeight && cfgLineHeight > 0 ? cfgLineHeight : 1;
+    // Default text color for normal log lines. Empty = follow the theme.
+    // Leaves stderr (red), warnings (yellow), ANSI colors and links untouched.
+    const cfgFontColor = (cfg.get<string>('fontColor', '') ?? '').trim();
+    const safeFontColor = cfgFontColor.replace(/[<>{};]/g, '');
+    const fontColorCss = safeFontColor
+      ? `#logs, #logs .stdout, #logs .console { color: ${safeFontColor}; }`
+      : '';
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -465,6 +473,8 @@ class ConsoleViewProvider implements vscode.WebviewViewProvider {
   .warn    { color: var(--vscode-debugConsole-warningForeground); }
   .telemetry { color: var(--vscode-debugConsole-sourceForeground); opacity: .75; }
   .important { color: var(--vscode-debugConsole-infoForeground); font-weight: bold; }
+  /* Optional user-defined default text color (normal lines only) */
+  ${fontColorCss}
   .line.network:not(.pretty-dio-block) {
     color: var(--vscode-terminal-ansiBrightCyan, var(--vscode-terminal-ansiCyan));
   }
