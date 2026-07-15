@@ -1,159 +1,170 @@
 {
-  "name": "flutter-debugger-plus",
-  "displayName": "Flutter Debugger Plus",
-  "description": "Searchable Flutter/Dart debug console with ANSI colors, file-link navigation and regex search — sits next to Terminal, Debug Console & Output.",
-  "version": "0.0.7",
-  "publisher": "dattd-01",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/arthurtran01/flutter-debugger-plus.git"
-  },
-  "bugs": {
-    "url": "https://github.com/arthurtran01/flutter-debugger-plus/issues"
-  },
-  "homepage": "https://github.com/arthurtran01/flutter-debugger-plus#readme",
-  "icon": "media/icon.png",
-  "engines": {
-    "vscode": "^1.90.0"
-  },
-  "categories": [
-    "Debuggers",
-    "Other"
-  ],
-  "activationEvents": [
-    "onStartupFinished",
-    "onDebug"
-  ],
-  "main": "./out/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "flutterDebuggerPlus.show",
-        "title": "Flutter Debugger Plus: Show Console"
-      },
-      {
-        "command": "flutterDebuggerPlus.clear",
-        "title": "Flutter Debugger Plus: Clear Logs"
-      },
-      {
-        "command": "flutterDebuggerPlus.selectLaunchConfig",
-        "title": "Select Launch Configuration",
-        "icon": "$(triangle-down)",
-        "category": "Flutter Debugger Plus"
-      },
-      {
-        "command": "flutterDebuggerPlus.debug",
-        "title": "Debug",
-        "icon": "$(debug-start)",
-        "category": "Flutter Debugger Plus"
-      },
-      {
-        "command": "flutterDebuggerPlus.stopDebug",
-        "title": "Stop Debugging",
-        "icon": "$(debug-stop)",
-        "category": "Flutter Debugger Plus"
-      }
-    ],
-    "menus": {
-      "editor/title/run": [
-        {
-          "command": "flutterDebuggerPlus.selectLaunchConfig",
-          "when": "resourceLangId == dart && !inDebugMode",
-          "group": "navigation@0"
-        },
-        {
-          "command": "flutterDebuggerPlus.debug",
-          "when": "resourceLangId == dart && !inDebugMode",
-          "group": "navigation@1"
-        },
-        {
-          "command": "flutterDebuggerPlus.stopDebug",
-          "when": "resourceLangId == dart && inDebugMode",
-          "group": "navigation@0"
-        }
-      ],
-      "editor/title": [
-        {
-          "command": "flutterDebuggerPlus.selectLaunchConfig",
-          "when": "resourceLangId == dart && !inDebugMode",
-          "group": "navigation@98"
-        },
-        {
-          "command": "flutterDebuggerPlus.debug",
-          "when": "resourceLangId == dart && !inDebugMode",
-          "group": "navigation@99"
-        },
-        {
-          "command": "flutterDebuggerPlus.stopDebug",
-          "when": "resourceLangId == dart && inDebugMode",
-          "group": "navigation@99"
-        }
-      ]
-    },
-    "viewsContainers": {
-      "panel": [
-        {
-          "id": "flutterDebuggerPlusPanel",
-          "title": "Flutter Console+",
-          "icon": "media/debug-console.svg"
-        }
-      ]
-    },
-    "views": {
-      "flutterDebuggerPlusPanel": [
-        {
-          "id": "flutterDebuggerPlus.consoleView",
-          "name": "Search Console",
-          "type": "webview",
-          "icon": "media/debug-console.svg",
-          "contextualTitle": "Flutter Console+"
-        }
-      ]
-    },
-    "configuration": {
-      "title": "Flutter Debugger Plus",
-      "properties": {
-        "flutterDebuggerPlus.autoRevealOnFlutterDebug": {
-          "type": "boolean",
-          "default": true,
-          "description": "Automatically reveal the console when a Flutter/Dart debug session starts."
-        },
-        "flutterDebuggerPlus.maxLines": {
-          "type": "number",
-          "default": 5000,
-          "minimum": 500,
-          "description": "Maximum number of log lines kept in memory."
-        },
-        "flutterDebuggerPlus.onlyFlutterDart": {
-          "type": "boolean",
-          "default": true,
-          "description": "Capture only Dart/Flutter debug sessions. Turn off to capture all debug adapter output events."
-        },
-        "flutterDebuggerPlus.clearOnRestart": {
-          "type": "boolean",
-          "default": true,
-          "description": "Clear logs when the app is restarted (hot restart) or a new debug session starts."
-        },
-        "flutterDebuggerPlus.tooltipDuration": {
-          "type": "number",
-          "default": 3,
-          "minimum": 0,
-          "description": "How long toolbar hover tooltips stay visible (seconds). Set to 0 to keep until the pointer leaves."
-        }
-      }
-    }
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "package": "vsce package"
-  },
-  "devDependencies": {
-    "@types/node": "^20.11.30",
-    "@types/vscode": "^1.90.0",
-    "typescript": "^5.4.5",
-    "@vscode/vsce": "^3.0.0"
-  }
+	"name": "flutter-debugger-plus",
+	"displayName": "Flutter Debugger Plus",
+	"description": "Searchable Flutter/Dart debug console with ANSI colors, file-link navigation and regex search — sits next to Terminal, Debug Console & Output.",
+	"version": "0.0.8",
+	"publisher": "dattd-01",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/arthurtran01/flutter-debugger-plus.git"
+	},
+	"bugs": {
+		"url": "https://github.com/arthurtran01/flutter-debugger-plus/issues"
+	},
+	"homepage": "https://github.com/arthurtran01/flutter-debugger-plus#readme",
+	"icon": "media/icon.png",
+	"engines": {
+		"vscode": "^1.90.0"
+	},
+	"categories": [
+		"Debuggers",
+		"Other"
+	],
+	"activationEvents": [
+		"onStartupFinished",
+		"onDebug"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "flutterDebuggerPlus.show",
+				"title": "Flutter Debugger Plus: Show Console"
+			},
+			{
+				"command": "flutterDebuggerPlus.clear",
+				"title": "Flutter Debugger Plus: Clear Logs"
+			},
+			{
+				"command": "flutterDebuggerPlus.selectLaunchConfig",
+				"title": "Select Launch Configuration",
+				"icon": "$(triangle-down)",
+				"category": "Flutter Debugger Plus"
+			},
+			{
+				"command": "flutterDebuggerPlus.debug",
+				"title": "Debug",
+				"icon": "$(debug-start)",
+				"category": "Flutter Debugger Plus"
+			},
+			{
+				"command": "flutterDebuggerPlus.stopDebug",
+				"title": "Stop Debugging",
+				"icon": "$(debug-stop)",
+				"category": "Flutter Debugger Plus"
+			}
+		],
+		"menus": {
+			"editor/title/run": [
+				{
+					"command": "flutterDebuggerPlus.selectLaunchConfig",
+					"when": "resourceLangId == dart && !inDebugMode",
+					"group": "navigation@0"
+				},
+				{
+					"command": "flutterDebuggerPlus.debug",
+					"when": "resourceLangId == dart && !inDebugMode",
+					"group": "navigation@1"
+				},
+				{
+					"command": "flutterDebuggerPlus.stopDebug",
+					"when": "resourceLangId == dart && inDebugMode",
+					"group": "navigation@0"
+				}
+			],
+			"editor/title": [
+				{
+					"command": "flutterDebuggerPlus.selectLaunchConfig",
+					"when": "resourceLangId == dart && !inDebugMode",
+					"group": "navigation@98"
+				},
+				{
+					"command": "flutterDebuggerPlus.debug",
+					"when": "resourceLangId == dart && !inDebugMode",
+					"group": "navigation@99"
+				},
+				{
+					"command": "flutterDebuggerPlus.stopDebug",
+					"when": "resourceLangId == dart && inDebugMode",
+					"group": "navigation@99"
+				}
+			]
+		},
+		"viewsContainers": {
+			"panel": [
+				{
+					"id": "flutterDebuggerPlusPanel",
+					"title": "Flutter Console+",
+					"icon": "media/debug-console.svg"
+				}
+			]
+		},
+		"views": {
+			"flutterDebuggerPlusPanel": [
+				{
+					"id": "flutterDebuggerPlus.consoleView",
+					"name": "Search Console",
+					"type": "webview",
+					"icon": "media/debug-console.svg",
+					"contextualTitle": "Flutter Console+"
+				}
+			]
+		},
+		"configuration": {
+			"title": "Flutter Debugger Plus",
+			"properties": {
+				"flutterDebuggerPlus.autoRevealOnFlutterDebug": {
+					"type": "boolean",
+					"default": true,
+					"description": "Automatically reveal the console when a Flutter/Dart debug session starts."
+				},
+				"flutterDebuggerPlus.maxLines": {
+					"type": "number",
+					"default": 5000,
+					"minimum": 500,
+					"description": "Maximum number of log lines kept in memory."
+				},
+				"flutterDebuggerPlus.onlyFlutterDart": {
+					"type": "boolean",
+					"default": true,
+					"description": "Capture only Dart/Flutter debug sessions. Turn off to capture all debug adapter output events."
+				},
+				"flutterDebuggerPlus.clearOnRestart": {
+					"type": "boolean",
+					"default": true,
+					"description": "Clear logs when the app is restarted (hot restart) or a new debug session starts."
+				},
+				"flutterDebuggerPlus.tooltipDuration": {
+					"type": "number",
+					"default": 3,
+					"minimum": 0,
+					"description": "How long toolbar hover tooltips stay visible (seconds). Set to 0 to keep until the pointer leaves."
+				},
+				"flutterDebuggerPlus.fontSize": {
+					"type": "number",
+					"default": 0,
+					"minimum": 0,
+					"description": "Font size (px) for the log output area. Set to 0 to follow the editor font size (editor.fontSize)."
+				},
+				"flutterDebuggerPlus.fontFamily": {
+					"type": "string",
+					"default": "",
+					"description": "Font family for the log output area. Leave empty to follow the editor font family (editor.fontFamily)."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"package": "vsce package"
+	},
+	"devDependencies": {
+		"@types/node": "^20.11.30",
+		"@types/vscode": "^1.90.0",
+		"typescript": "^5.4.5",
+		"@vscode/vsce": "^3.0.0"
+	}
 }

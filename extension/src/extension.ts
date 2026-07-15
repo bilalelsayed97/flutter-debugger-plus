@@ -187,6 +187,14 @@ class ConsoleViewProvider implements vscode.WebviewViewProvider {
         if (e.affectsConfiguration('flutterDebuggerPlus.tooltipDuration')) {
           this.pushTooltipConfig();
         }
+        // Font is baked into the webview <style>, so regenerate the HTML.
+        // The webview re-requests its logs via its existing ready -> init flow.
+        if (
+          e.affectsConfiguration('flutterDebuggerPlus.fontSize') ||
+          e.affectsConfiguration('flutterDebuggerPlus.fontFamily')
+        ) {
+          if (this.view) { this.view.webview.html = this.getHtml(); }
+        }
       })
     );
   }
@@ -234,6 +242,17 @@ class ConsoleViewProvider implements vscode.WebviewViewProvider {
   private getHtml(): string {
     const nonce = getNonce();
     const tooltipDurationMs = this.tooltipDurationMs();
+    const cfg = vscode.workspace.getConfiguration('flutterDebuggerPlus');
+    // Font overrides for the log area. Empty / 0 means "follow the editor".
+    const cfgFontSize = cfg.get<number>('fontSize', 0);
+    const cfgFontFamily = (cfg.get<string>('fontFamily', '') ?? '').trim();
+    const logsFontSize = cfgFontSize && cfgFontSize > 0
+      ? `${cfgFontSize}px`
+      : 'var(--vscode-editor-font-size)';
+    // Escape closing braces / angle brackets defensively so the value can't break the <style> block.
+    const logsFontFamily = cfgFontFamily
+      ? cfgFontFamily.replace(/[<>{}]/g, '')
+      : 'var(--vscode-editor-font-family)';
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -422,8 +441,8 @@ class ConsoleViewProvider implements vscode.WebviewViewProvider {
   #logsWrap { flex: 1; overflow: auto; }
   #logs {
     padding: 6px 8px;
-    font-family: var(--vscode-editor-font-family);
-    font-size: var(--vscode-editor-font-size);
+    font-family: ${logsFontFamily};
+    font-size: ${logsFontSize};
     line-height: 1.45;
   }
   .line {
