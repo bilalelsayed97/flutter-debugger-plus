@@ -770,6 +770,7 @@ class ConsoleViewProvider implements vscode.WebviewViewProvider {
 <div id="tipHost" hidden aria-hidden="true"></div>
 <div id="ctxMenu" class="ctx-menu" hidden>
   <button class="ctx-item" id="ctxCopy" type="button">Copy</button>
+  <button class="ctx-item" id="ctxCopyAll" type="button">Copy All</button>
   <div class="ctx-sep"></div>
   <button class="ctx-item" id="ctxClear" type="button">Clear Log</button>
 </div>
@@ -791,6 +792,7 @@ class ConsoleViewProvider implements vscode.WebviewViewProvider {
   const prevBtn    = document.getElementById('prev');
   const ctxMenu        = document.getElementById('ctxMenu');
   const ctxCopy        = document.getElementById('ctxCopy');
+  const ctxCopyAll     = document.getElementById('ctxCopyAll');
   const ctxClear       = document.getElementById('ctxClear');
   const optCase  = document.getElementById('optCase');
   const optWord  = document.getElementById('optWord');
@@ -1446,6 +1448,30 @@ class ConsoleViewProvider implements vscode.WebviewViewProvider {
       try { await navigator.clipboard.writeText(sel); }
       catch { document.execCommand('copy'); }
     }
+    hideCtxMenu();
+  });
+  // Writes arbitrary text to the clipboard, with a hidden-textarea fallback
+  // (execCommand('copy') only copies the current selection, not a string).
+  async function copyTextToClipboard(text) {
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } finally { document.body.removeChild(ta); }
+    }
+  }
+  ctxCopyAll.addEventListener('click', async () => {
+    // Copy every log line currently in the buffer (regardless of filter).
+    const text = Array.from(logsEl.children)
+      .map((el) => el.textContent ?? '')
+      .join('\\n');
+    await copyTextToClipboard(text);
     hideCtxMenu();
   });
 

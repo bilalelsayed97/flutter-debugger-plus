@@ -2,7 +2,7 @@
 	"name": "flutter-debugger-plus",
 	"displayName": "Flutter Debugger Plus",
 	"description": "Searchable Flutter/Dart debug console with ANSI colors, file-link navigation and regex search — sits next to Terminal, Debug Console & Output.",
-	"version": "0.0.10",
+	"version": "0.0.11",
 	"publisher": "dattd-01",
 	"license": "MIT",
 	"repository": {
